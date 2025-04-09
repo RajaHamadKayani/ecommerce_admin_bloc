@@ -6,8 +6,8 @@ class FirestoreResponse<T> {
   T? data;
 FirestoreResponse(this.data,this.message,this.statuses);
 FirestoreResponse.isLoading():statuses=Statuses.loading;
-FirestoreResponse.isCompleted():statuses=Statuses.success;
-FirestoreResponse.isError():statuses=Statuses.error;
+FirestoreResponse.isCompleted(this.data):statuses=Statuses.success;
+FirestoreResponse.isError(this.message):statuses=Statuses.error;
 FirestoreResponse.isInitiall():statuses=Statuses.initial;
 
 @override

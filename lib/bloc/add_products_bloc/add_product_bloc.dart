@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_bloc/bloc/add_products_bloc/add_product_events.dart';
 import 'package:ecommerce_bloc/bloc/add_products_bloc/add_product_states.dart';
-import 'package:ecommerce_bloc/data/repository/add_product_repository/add_product_firestore_repository.dart';
 import 'package:ecommerce_bloc/data/repository/add_product_repository/add_product_repository.dart';
 import 'package:ecommerce_bloc/models/product_model/product_model.dart';
 import 'package:ecommerce_bloc/utils/enums.dart';
 
-class AddProductBloc extends Bloc<AddProductEvent, AddProductStates> {
+class AddProductBloc extends Bloc<AddProductEvents, AddProductStates> {
   AddProductRepository addProductRepository;
   AddProductBloc({required this.addProductRepository})
       : super(AddProductStates()) {
@@ -51,6 +50,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductStates> {
         statuses: Statuses.success,
         message: "Successfully uploaded the product"
       ));
+    
     }).onError((error,stackTrace){
       emit(state.copyWith(message: error.toString(),
       statuses: Statuses.error));

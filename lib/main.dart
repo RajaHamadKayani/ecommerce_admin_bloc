@@ -2,11 +2,14 @@ import 'package:ecommerce_bloc/config/routes/route_names.dart';
 import 'package:ecommerce_bloc/config/routes/routes.dart';
 import 'package:ecommerce_bloc/data/repository/add_product_repository/add_product_firestore_repository.dart';
 import 'package:ecommerce_bloc/data/repository/add_product_repository/add_product_repository.dart';
+import 'package:ecommerce_bloc/data/repository/fetch_products_repository/fetch_product_repository.dart';
+import 'package:ecommerce_bloc/data/repository/fetch_products_repository/fetch_products_firebase_repository.dart';
 import 'package:ecommerce_bloc/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
-GetIt getIt=GetIt.instance;
+
+GetIt getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -16,7 +19,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   dependencyServices();
-
 
   runApp(const MyApp());
 }
@@ -34,12 +36,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: RouteNames.addProductViewRoute,
+      initialRoute: RouteNames.allProductsViewRoute,
       onGenerateRoute: Routes.generateRoutes,
     );
   }
 }
 
-void dependencyServices(){
-  getIt.registerLazySingleton<AddProductRepository>(()=> AddProductFirestoreRepository());
+void dependencyServices() {
+  getIt.registerLazySingleton<AddProductRepository>(
+      () => AddProductFirestoreRepository());
+  getIt.registerLazySingleton<FetchProductRepository>(
+      () => FetchProductsFirebaseRepository());
 }
