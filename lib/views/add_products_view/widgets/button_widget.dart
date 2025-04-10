@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ButtonWidget extends StatefulWidget {
   GlobalKey<FormState> globalKey;
@@ -21,6 +22,7 @@ class ButtonWidget extends StatefulWidget {
   final TextEditingController descriptionController;
   final TextEditingController priceController;
   final TextEditingController quantityController;
+  // final XFile image;
 
   ButtonWidget({
     super.key,
@@ -29,6 +31,7 @@ class ButtonWidget extends StatefulWidget {
     required this.borderRadius,
     required this.buttonText,
     required this.buttonColor,
+    // required this.image,
     required this.height,
     required this.widget,
     required this.nameController,

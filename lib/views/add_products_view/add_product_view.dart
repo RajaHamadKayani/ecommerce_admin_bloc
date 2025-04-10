@@ -1,10 +1,9 @@
 import 'package:ecommerce_bloc/bloc/add_products_bloc/add_product_bloc.dart';
-import 'package:ecommerce_bloc/bloc/add_products_bloc/add_product_events.dart';
-import 'package:ecommerce_bloc/bloc/add_products_bloc/add_product_states.dart';
 import 'package:ecommerce_bloc/main.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/app_bar_widget.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/button_widget.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/description_input_widget.dart';
+import 'package:ecommerce_bloc/views/add_products_view/widgets/image_picker_widget.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/name_input_widget.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/price_input_widget.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/quantity_input_widget.dart';
@@ -68,6 +67,10 @@ class _AddProductViewState extends State<AddProductView> {
                         const SizedBox(
                           height: 20,
                         ),
+                        Center(
+                          child: ImagePickerWidget(),
+                        ),
+                        const SizedBox(height: 10,),
                         NameInputWidget(focusNode: nameFocusNode,
                         controller: nameController,),
                         const SizedBox(

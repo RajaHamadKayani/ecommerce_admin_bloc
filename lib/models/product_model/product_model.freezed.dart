@@ -24,6 +24,8 @@ mixin _$ProductModel {
   String get price;
   @JsonKey(name: "quantity")
   String get quantity;
+  @JsonKey(name: "image")
+  String get image;
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.
@@ -47,17 +49,18 @@ mixin _$ProductModel {
                 other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
+                other.quantity == quantity) &&
+            (identical(other.image, image) || other.image == image));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, description, price, quantity);
+      Object.hash(runtimeType, id, name, description, price, quantity, image);
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, quantity: $quantity)';
+    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, quantity: $quantity, image: $image)';
   }
 }
 
@@ -72,7 +75,8 @@ abstract mixin class $ProductModelCopyWith<$Res> {
       @JsonKey(name: "name") String name,
       @JsonKey(name: "description") String description,
       @JsonKey(name: "price") String price,
-      @JsonKey(name: "quantity") String quantity});
+      @JsonKey(name: "quantity") String quantity,
+      @JsonKey(name: "image") String image});
 }
 
 /// @nodoc
@@ -92,6 +96,7 @@ class _$ProductModelCopyWithImpl<$Res> implements $ProductModelCopyWith<$Res> {
     Object? description = null,
     Object? price = null,
     Object? quantity = null,
+    Object? image = null,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -114,6 +119,10 @@ class _$ProductModelCopyWithImpl<$Res> implements $ProductModelCopyWith<$Res> {
           ? _self.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as String,
+      image: null == image
+          ? _self.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -126,7 +135,8 @@ class _ProductModel implements ProductModel {
       @JsonKey(name: "name") this.name = "",
       @JsonKey(name: "description") this.description = "",
       @JsonKey(name: "price") this.price = "",
-      @JsonKey(name: "quantity") this.quantity = ""});
+      @JsonKey(name: "quantity") this.quantity = "",
+      @JsonKey(name: "image") this.image = ""});
   factory _ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
 
@@ -144,6 +154,9 @@ class _ProductModel implements ProductModel {
   @override
   @JsonKey(name: "quantity")
   final String quantity;
+  @override
+  @JsonKey(name: "image")
+  final String image;
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.
@@ -171,17 +184,18 @@ class _ProductModel implements ProductModel {
                 other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
+                other.quantity == quantity) &&
+            (identical(other.image, image) || other.image == image));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, description, price, quantity);
+      Object.hash(runtimeType, id, name, description, price, quantity, image);
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, quantity: $quantity)';
+    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, quantity: $quantity, image: $image)';
   }
 }
 
@@ -198,7 +212,8 @@ abstract mixin class _$ProductModelCopyWith<$Res>
       @JsonKey(name: "name") String name,
       @JsonKey(name: "description") String description,
       @JsonKey(name: "price") String price,
-      @JsonKey(name: "quantity") String quantity});
+      @JsonKey(name: "quantity") String quantity,
+      @JsonKey(name: "image") String image});
 }
 
 /// @nodoc
@@ -219,6 +234,7 @@ class __$ProductModelCopyWithImpl<$Res>
     Object? description = null,
     Object? price = null,
     Object? quantity = null,
+    Object? image = null,
   }) {
     return _then(_ProductModel(
       id: freezed == id
@@ -240,6 +256,10 @@ class __$ProductModelCopyWithImpl<$Res>
       quantity: null == quantity
           ? _self.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _self.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

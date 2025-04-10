@@ -68,7 +68,11 @@ class _ProductsListWidgetState extends State<ProductsListWidget> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ListTile(
-                          title: Text(
+leading: CircleAvatar(
+  radius: 25, // Adjust size as needed
+  backgroundImage: NetworkImage(state.firestoreResponse.data[index].image),
+  backgroundColor: Colors.grey[200], // Optional: fallback bg color
+),                          title: Text(
                             state.firestoreResponse.data[index].name,
                             style: GoogleFonts.poppins(
                               color: Colors.black,
