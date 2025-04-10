@@ -1,6 +1,7 @@
 import 'package:ecommerce_bloc/config/routes/route_names.dart';
 import 'package:ecommerce_bloc/views/add_products_view/add_product_view.dart';
 import 'package:ecommerce_bloc/views/all_products_view/all_products_view.dart';
+import 'package:ecommerce_bloc/views/update_product_view/update_product_view.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -10,6 +11,8 @@ class Routes {
         return MaterialPageRoute(builder: (context) => AddProductView());
       case RouteNames.allProductsViewRoute:
         return MaterialPageRoute(builder: (context) => AllProductsView());
+      case RouteNames.updateProductViewRoute:
+        return MaterialPageRoute(builder: (context) => UpdateProductView());
       default:
         return MaterialPageRoute(builder: (context) {
           return Scaffold(

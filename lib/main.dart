@@ -2,8 +2,12 @@ import 'package:ecommerce_bloc/config/routes/route_names.dart';
 import 'package:ecommerce_bloc/config/routes/routes.dart';
 import 'package:ecommerce_bloc/data/repository/add_product_repository/add_product_firestore_repository.dart';
 import 'package:ecommerce_bloc/data/repository/add_product_repository/add_product_repository.dart';
+import 'package:ecommerce_bloc/data/repository/delete_product_repository/delete_product_firestore_repository.dart';
+import 'package:ecommerce_bloc/data/repository/delete_product_repository/delete_product_repository.dart';
 import 'package:ecommerce_bloc/data/repository/fetch_products_repository/fetch_product_repository.dart';
 import 'package:ecommerce_bloc/data/repository/fetch_products_repository/fetch_products_firebase_repository.dart';
+import 'package:ecommerce_bloc/data/repository/update_product_repository/update_product_firestore_repository.dart';
+import 'package:ecommerce_bloc/data/repository/update_product_repository/update_product_repository.dart';
 import 'package:ecommerce_bloc/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,4 +51,10 @@ void dependencyServices() {
       () => AddProductFirestoreRepository());
   getIt.registerLazySingleton<FetchProductRepository>(
       () => FetchProductsFirebaseRepository());
+
+  getIt.registerLazySingleton<UpdateProductRepository>(
+      () => UpdateProductFirestoreRepository());
+
+  getIt.registerLazySingleton<DeleteProductRepository>(
+      () => DeleteProductFirestoreRepository());
 }

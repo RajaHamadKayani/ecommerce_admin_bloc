@@ -1,3 +1,4 @@
+import 'package:ecommerce_bloc/bloc/delete_product_bloc/delete_product_bloc.dart';
 import 'package:ecommerce_bloc/bloc/fetch_all_products_bloc/fetch_all_products_bloc.dart';
 import 'package:ecommerce_bloc/bloc/fetch_all_products_bloc/fetch_all_products_events.dart';
 import 'package:ecommerce_bloc/config/routes/route_names.dart';
@@ -16,25 +17,29 @@ class AllProductsView extends StatefulWidget {
 
 class _AllProductsViewState extends State<AllProductsView> {
   late FetchAllProductsBloc fetchAllProductsBloc;
+  late DeleteProductBloc deleteProductBloc;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchAllProductsBloc=FetchAllProductsBloc(fetchProductRepository: getIt());
+    deleteProductBloc=DeleteProductBloc(deleteProductRepository: getIt());
   }
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     fetchAllProductsBloc.close();
+    deleteProductBloc.close();
   }
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_)=> fetchAllProductsBloc..add(FetchProduct()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_)=> fetchAllProductsBloc..add(FetchProduct())),
+        BlocProvider(create: (_)=> deleteProductBloc)
+      ],
       child: Scaffold(
         floatingActionButton: FloatingActionButton(onPressed: (){
-          Navigator.pushNamed(context, RouteNames.addProductViewRoute);
+          Navigator.pushNamed(context, RouteNames.addProductViewRoute,);
         },
         child: Icon(Icons.add,
         color: Colors.black,),),
