@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:ecommerce_bloc/bloc/update_product_bloc/update_product_events.dart';
 import 'package:ecommerce_bloc/bloc/update_product_bloc/update_product_states.dart';
 import 'package:ecommerce_bloc/data/repository/update_product_repository/update_product_repository.dart';
 import 'package:ecommerce_bloc/models/product_model/product_model.dart';
 import 'package:ecommerce_bloc/utils/enums.dart';
+import 'package:ecommerce_bloc/utils/extensions/image_picker_util.dart';
+import 'package:ecommerce_bloc/utils/extensions/upload_image_to_cloudinary.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UpdateProductBloc extends Bloc<UpdateProductEvents, UpdateProductStates> {
   UpdateProductRepository updateProductRepository;
+  ImagePickerUtil imagePickerUtil = ImagePickerUtil();
   UpdateProductBloc({required this.updateProductRepository})
       : super(UpdateProductStates()) {
     on<UpdateNameEvent>(_updateNameEvent);
@@ -15,6 +21,7 @@ class UpdateProductBloc extends Bloc<UpdateProductEvents, UpdateProductStates> {
     on<UpdateDescriptionEvent>(_updateDescriptionEvent);
     on<UpdatePriceEvent>(_updatePriceEvent);
     on<SubmitUpdateProduct>(_submitUpdateProduct);
+    on<UpdateImageEvent>(_updateImageEvent);
   }
   void _updateDescriptionEvent(
       UpdateDescriptionEvent event, Emitter<UpdateProductStates> emit) {
@@ -49,28 +56,46 @@ class UpdateProductBloc extends Bloc<UpdateProductEvents, UpdateProductStates> {
     }
   }
 
+  void _updateImageEvent(
+      UpdateImageEvent event, Emitter<UpdateProductStates> emit) async {
+    XFile? image = await imagePickerUtil.getImage();
+    emit(state.copyWith(image: image));
+  }
+
   void _submitUpdateProduct(
       SubmitUpdateProduct event, Emitter<UpdateProductStates> emit) async {
     emit(state.copyWith(statuses: Statuses.loading));
-    ProductModel productModel = ProductModel(
-        name: event.name.toString(),
-        id: event.id.toString(),
-        quantity: event.quantity.toString(),
-        price: event.price.toString(),
-        description: event.description.toString());
-    if (kDebugMode) {
-      print("Updated Name of product ${productModel.name.toString()}");
-      print(
-          "Updated Description of product ${productModel.description.toString()}");
-      print("Updated Price of product ${productModel.price.toString()}");
-      print("Updated Quantity of product ${productModel.quantity.toString()}");
-    }
 
-    await updateProductRepository.updateProduct(productModel).then((value) {
+    try {
+      String finalImageUrl = event.image;
+
+      // If a new image is selected, upload it
+      if (state.image != null) {
+        final uploadedImageUrl =
+            await UploadImageToCloudinary.uploadImageToCloudinary(
+                File(state.image!.path));
+                  if(kDebugMode){
+          print("Updated Image url is $uploadedImageUrl");
+        }
+        finalImageUrl = uploadedImageUrl;
+      
+      }
+
+      final updatedProduct = ProductModel(
+        id: event.id,
+        name: event.name,
+        price: event.price,
+        description: event.description,
+        quantity: event.quantity,
+        image: finalImageUrl, // ✅ either new or old
+      );
+
+      await updateProductRepository.updateProduct(updatedProduct);
+
       emit(state.copyWith(
-          statuses: Statuses.success, message: "Product Updated Successfully"));
-    }).onError((error, stackTrace) {
-      emit(state.copyWith(statuses: Statuses.error, message: error.toString()));
-    });
+          statuses: Statuses.success, message: "Product updated successfully"));
+    } catch (e) {
+      emit(state.copyWith(statuses: Statuses.error, message: e.toString()));
+    }
   }
 }

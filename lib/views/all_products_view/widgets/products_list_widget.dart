@@ -31,7 +31,10 @@ class _ProductsListWidgetState extends State<ProductsListWidget> {
             context: context,
             barrierDismissible: false,
             builder: (context) {
-              return Center(child: CircularProgressIndicator(color: Colors.black,));
+              return Center(
+                  child: CircularProgressIndicator(
+                color: Colors.black,
+              ));
             },
           );
         } else if (state.statuses == Statuses.success) {
@@ -68,11 +71,14 @@ class _ProductsListWidgetState extends State<ProductsListWidget> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ListTile(
-leading: CircleAvatar(
-  radius: 25, // Adjust size as needed
-  backgroundImage: NetworkImage(state.firestoreResponse.data[index].image),
-  backgroundColor: Colors.grey[200], // Optional: fallback bg color
-),                          title: Text(
+                          leading: CircleAvatar(
+                            radius: 25, // Adjust size as needed
+                            backgroundImage: NetworkImage(
+                                state.firestoreResponse.data[index].image),
+                            backgroundColor:
+                                Colors.grey[200], // Optional: fallback bg color
+                          ),
+                          title: Text(
                             state.firestoreResponse.data[index].name,
                             style: GoogleFonts.poppins(
                               color: Colors.black,
@@ -116,6 +122,10 @@ leading: CircleAvatar(
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               UpdateProductView(
+                                                imageUrl: state
+                                                    .firestoreResponse
+                                                    .data[index]
+                                                    .image,
                                                 id: state.firestoreResponse
                                                     .data[index].id,
                                                 currentName: state

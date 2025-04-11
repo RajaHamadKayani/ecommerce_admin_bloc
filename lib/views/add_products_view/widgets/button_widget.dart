@@ -8,8 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class ButtonWidget extends StatefulWidget {
   GlobalKey<FormState> globalKey;
   // final VoidCallback onPress;
@@ -62,6 +62,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
           widget.priceController.clear();
           widget.quantityController.clear();
           widget.nameController.clear();
+          state.image==null;
           Navigator.pushNamed(context, RouteNames.allProductsViewRoute);
           if (kDebugMode) {
             print("Post Api successful");

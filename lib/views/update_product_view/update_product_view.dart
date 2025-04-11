@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:ecommerce_bloc/bloc/update_product_bloc/update_product_bloc.dart';
 import 'package:ecommerce_bloc/main.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/app_bar_widget.dart';
 import 'package:ecommerce_bloc/views/add_products_view/widgets/text_widget.dart';
 import 'package:ecommerce_bloc/views/update_product_view/widgets/update_button_widget.dart';
 import 'package:ecommerce_bloc/views/update_product_view/widgets/update_description_input_widget.dart';
+import 'package:ecommerce_bloc/views/update_product_view/widgets/update_image_picker_widget.dart';
 import 'package:ecommerce_bloc/views/update_product_view/widgets/update_name_input_widget.dart';
 import 'package:ecommerce_bloc/views/update_product_view/widgets/update_price_input_widget.dart';
 import 'package:ecommerce_bloc/views/update_product_view/widgets/update_quantity_inpuut_widget.dart';
@@ -12,17 +15,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class UpdateProductView extends StatefulWidget {
-  String ?currentName;
+  String? currentName;
   String? currentDescription;
-  String ?currentPrice;
-  String ?currentQuantity;
-  String ? id;
-   UpdateProductView({super.key,
-   this.currentDescription,
-   this.currentName,
-   this.currentPrice,
-   this.id,
-   this.currentQuantity});
+  String? currentPrice;
+  String? currentQuantity;
+  String? id;
+  String ? imageUrl;
+  UpdateProductView(
+      {super.key,
+      this.currentDescription,
+      this.currentName,
+      this.imageUrl,
+      this.currentPrice,
+      this.id,
+      this.currentQuantity});
 
   @override
   State<UpdateProductView> createState() => _UpdateProductViewState();
@@ -30,7 +36,7 @@ class UpdateProductView extends StatefulWidget {
 
 class _UpdateProductViewState extends State<UpdateProductView> {
   late UpdateProductBloc updateProductBloc;
-    var nameFocusNode = FocusNode();
+  var nameFocusNode = FocusNode();
   var descriptionFocusNode = FocusNode();
   var priceFocusNode = FocusNode();
   var quantityFocusNode = FocusNode();
@@ -44,13 +50,11 @@ class _UpdateProductViewState extends State<UpdateProductView> {
     super.initState();
 
     updateProductBloc = UpdateProductBloc(updateProductRepository: getIt());
-    nameController.text=widget.currentName.toString();
-    descriptionController.text=widget.currentDescription.toString();
-    priceController.text=widget.currentPrice.toString();
-    quantityController.text=widget.currentQuantity.toString();
+    nameController.text = widget.currentName.toString();
+    descriptionController.text = widget.currentDescription.toString();
+    priceController.text = widget.currentPrice.toString();
+    quantityController.text = widget.currentQuantity.toString();
   }
-
-
 
   @override
   void dispose() {
@@ -82,13 +86,21 @@ class _UpdateProductViewState extends State<UpdateProductView> {
                     const SizedBox(
                       height: 20,
                     ),
+                    Center(child: UpdateImagePickerWidget(
+                      id: widget.id ?? "",
+                      currentImageUrl: widget.imageUrl ?? "",
+                    )),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     UpdateNameInputWidget(
                         focusNode: nameFocusNode, controller: nameController),
                     const SizedBox(
                       height: 10,
                     ),
                     UpdateDescriptionInputWidget(
-                        focusNode: descriptionFocusNode, controller: descriptionController),
+                        focusNode: descriptionFocusNode,
+                        controller: descriptionController),
                     const SizedBox(
                       height: 10,
                     ),
@@ -98,24 +110,26 @@ class _UpdateProductViewState extends State<UpdateProductView> {
                       height: 10,
                     ),
                     UpdateQuantityInpuutWidget(
-                        focusNode: quantityFocusNode, controller: quantityController),
-                      const SizedBox(
-                          height: 40,
-                        ),
-                        Center(
-                            child: UpdateButtonWidget(
-                          globalKey: globalKey,
-                       id: widget.id ?? "",
-                          nameController: nameController,
-                          descriptionController: descriptionController,
-                          priceController: priceController,
-                          quantityController: quantityController,
-                          borderRadius: BorderRadius.circular(10),
-                          buttonText: "Update Product",
-                          buttonColor: 0xff2196f3,
-                          height: 40,
-                          widget: 250,
-                        ))
+                        focusNode: quantityFocusNode,
+                        controller: quantityController),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Center(
+                        child: UpdateButtonWidget(
+                          imageUrl: widget.imageUrl ?? "",
+                      globalKey: globalKey,
+                      id: widget.id ?? "",
+                      nameController: nameController,
+                      descriptionController: descriptionController,
+                      priceController: priceController,
+                      quantityController: quantityController,
+                      borderRadius: BorderRadius.circular(10),
+                      buttonText: "Update Product",
+                      buttonColor: 0xff2196f3,
+                      height: 40,
+                      widget: 250,
+                    ))
                   ],
                 ),
               ),

@@ -17,6 +17,7 @@ class UpdateButtonWidget extends StatefulWidget {
   final String buttonText;
   final double widget;
   final int buttonColor;
+  final String imageUrl;
   String id;
   final BorderRadius borderRadius;
   final TextEditingController nameController;
@@ -30,6 +31,7 @@ class UpdateButtonWidget extends StatefulWidget {
     required this.globalKey,
     required this.id,
     required this.borderRadius,
+    required this.imageUrl,
     required this.buttonText,
     required this.buttonColor,
     required this.height,
@@ -62,6 +64,7 @@ class _UpdateButtonWidgetState extends State<UpdateButtonWidget> {
           widget.priceController.clear();
           widget.quantityController.clear();
           widget.nameController.clear();
+          state.image == null;
           Navigator.pushNamed(context, RouteNames.allProductsViewRoute);
           if (kDebugMode) {
             print("Post Api successful");
@@ -78,6 +81,7 @@ class _UpdateButtonWidgetState extends State<UpdateButtonWidget> {
               onTap: () {
                 if (widget.globalKey.currentState?.validate() ?? false) {
                   context.read<UpdateProductBloc>().add(SubmitUpdateProduct(
+                        image: widget.imageUrl,
                         id: widget.id,
                         name: widget.nameController.text.trim(),
                         description: widget.descriptionController.text.trim(),

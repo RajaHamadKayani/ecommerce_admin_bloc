@@ -36,15 +36,26 @@ UpdateQuantityEvent({required this.productQuantity});
 @override
 List<Object?> get props=> [productQuantity];
 }
+// ignore: must_be_immutable
+class UpdateImageEvent extends UpdateProductEvents{
+  String id;
+  String imageUrl;
+  UpdateImageEvent({required this.id,
+  required this.imageUrl});
+  @override
+  List<Object?> get props=>[id,imageUrl];
+}
 class SubmitUpdateProduct extends UpdateProductEvents{
     final String id;
   final String name;
   final String description;
+String  image;
   final String price;
   final String quantity;
- const SubmitUpdateProduct({
+  SubmitUpdateProduct({
     required this.id,
     required this.name,
+   required this.image,
     required this.description,
     required this.price,
     required this.quantity,
