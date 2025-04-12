@@ -20,7 +20,7 @@ class UpdateProductBloc extends Bloc<UpdateProductEvents, UpdateProductStates> {
     on<UpdateQuantityEvent>(_updateQuantityEvent);
     on<UpdateDescriptionEvent>(_updateDescriptionEvent);
     on<UpdatePriceEvent>(_updatePriceEvent);
-    on<SubmitUpdateProduct>(_submitUpdateProduct);
+    on<UpdateProductButtonPressedEvent>(_submitUpdateProduct);
     on<UpdateImageEvent>(_updateImageEvent);
   }
   void _updateDescriptionEvent(
@@ -62,40 +62,36 @@ class UpdateProductBloc extends Bloc<UpdateProductEvents, UpdateProductStates> {
     emit(state.copyWith(image: image));
   }
 
-  void _submitUpdateProduct(
-      SubmitUpdateProduct event, Emitter<UpdateProductStates> emit) async {
+  void _submitUpdateProduct(UpdateProductButtonPressedEvent event,
+      Emitter<UpdateProductStates> emit) async {
     emit(state.copyWith(statuses: Statuses.loading));
 
     try {
-      String finalImageUrl = event.image;
+      String imageUrl = event.oldImageUrl;
 
-      // If a new image is selected, upload it
-      if (state.image != null) {
-        final uploadedImageUrl =
-            await UploadImageToCloudinary.uploadImageToCloudinary(
-                File(state.image!.path));
-                  if(kDebugMode){
-          print("Updated Image url is $uploadedImageUrl");
-        }
-        finalImageUrl = uploadedImageUrl;
-      
+      // if new image picked, upload it and use the new URL
+      if (event.newImageFile != null) {
+        imageUrl = await UploadImageToCloudinary.uploadImageToCloudinary(
+            event.newImageFile!);
       }
 
-      final updatedProduct = ProductModel(
-        id: event.id,
+      ProductModel productModel = ProductModel(
+        id: event.productId,
         name: event.name,
-        price: event.price,
         description: event.description,
+        price: event.price,
         quantity: event.quantity,
-        image: finalImageUrl, // ✅ either new or old
+        image: imageUrl,
       );
 
-      await updateProductRepository.updateProduct(updatedProduct);
+      await updateProductRepository.updateProduct(productModel);
 
-      emit(state.copyWith(
-          statuses: Statuses.success, message: "Product updated successfully"));
+      emit(state.copyWith(statuses: Statuses.success));
     } catch (e) {
-      emit(state.copyWith(statuses: Statuses.error, message: e.toString()));
+      emit(state.copyWith(
+        statuses: Statuses.error,
+        message: e.toString(),
+      ));
     }
   }
 }

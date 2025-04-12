@@ -117,6 +117,10 @@ class _UpdateProductViewState extends State<UpdateProductView> {
                     ),
                     Center(
                         child: UpdateButtonWidget(
+                          currentName: widget.currentName,
+                          currentPrice: widget.currentPrice,
+                          currentQuantity: widget.currentQuantity,
+                          currentDescription: widget.currentDescription!,
                           imageUrl: widget.imageUrl ?? "",
                       globalKey: globalKey,
                       id: widget.id ?? "",

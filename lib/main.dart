@@ -6,6 +6,10 @@ import 'package:ecommerce_bloc/data/repository/delete_product_repository/delete_
 import 'package:ecommerce_bloc/data/repository/delete_product_repository/delete_product_repository.dart';
 import 'package:ecommerce_bloc/data/repository/fetch_products_repository/fetch_product_repository.dart';
 import 'package:ecommerce_bloc/data/repository/fetch_products_repository/fetch_products_firebase_repository.dart';
+import 'package:ecommerce_bloc/data/repository/sign_in_repository/signin_firebase_authentication_repository.dart';
+import 'package:ecommerce_bloc/data/repository/sign_in_repository/signin_repository.dart';
+import 'package:ecommerce_bloc/data/repository/signup_repository/signup_firebase_authentication_repository.dart';
+import 'package:ecommerce_bloc/data/repository/signup_repository/signup_repository.dart';
 import 'package:ecommerce_bloc/data/repository/update_product_repository/update_product_firestore_repository.dart';
 import 'package:ecommerce_bloc/data/repository/update_product_repository/update_product_repository.dart';
 import 'package:ecommerce_bloc/firebase_options.dart';
@@ -40,7 +44,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: RouteNames.allProductsViewRoute,
+      initialRoute: RouteNames.signinViewRoute,
       onGenerateRoute: Routes.generateRoutes,
     );
   }
@@ -57,4 +61,9 @@ void dependencyServices() {
 
   getIt.registerLazySingleton<DeleteProductRepository>(
       () => DeleteProductFirestoreRepository());
+
+  getIt.registerLazySingleton<SignupRepository>(
+      () => SignupFirebaseAuthenticationRepository());
+
+      getIt.registerLazySingleton<SigninRepository>(()=> SigninFirebaseAuthenticationRepository());
 }

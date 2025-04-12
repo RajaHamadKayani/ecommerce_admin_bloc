@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 abstract class UpdateProductEvents extends Equatable{
@@ -45,20 +47,23 @@ class UpdateImageEvent extends UpdateProductEvents{
   @override
   List<Object?> get props=>[id,imageUrl];
 }
-class SubmitUpdateProduct extends UpdateProductEvents{
-    final String id;
+// ignore: must_be_immutable
+class UpdateProductButtonPressedEvent extends UpdateProductEvents {
+  final String productId;
   final String name;
   final String description;
-String  image;
   final String price;
   final String quantity;
-  SubmitUpdateProduct({
-    required this.id,
+  final String oldImageUrl;
+  final File? newImageFile;
+
+  UpdateProductButtonPressedEvent({
+    required this.productId,
     required this.name,
-   required this.image,
     required this.description,
     required this.price,
     required this.quantity,
-  });  @override
-  List<Object?> get props=>[];
+    required this.oldImageUrl,
+    required this.newImageFile,
+  });
 }
